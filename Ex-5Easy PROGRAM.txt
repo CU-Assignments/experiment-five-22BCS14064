@@ -1,0 +1,45 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class SumUsingAutoboxing {
+
+       public static int calculateSum(List<Integer> integerList) {
+        int sum = 0;
+        // Autoboxing and unboxing is done implicitly in the following loop
+        for (Integer num : integerList) {
+            sum += num; // unboxing happens automatically here
+        }
+        return sum;
+    }
+
+      public static Integer parseStringToInteger(String str) {
+        try {
+            return Integer.parseInt(str); // parses the string and returns an Integer object
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid number format: " + str);
+            return null;
+        }
+    }
+
+    public static void main(String[] args) {
+       
+        List<String> stringNumbers = new ArrayList<>();
+        stringNumbers.add("10");
+        stringNumbers.add("20");
+        stringNumbers.add("30");
+        stringNumbers.add("40");
+        stringNumbers.add("50");
+
+        List<Integer> integerList = new ArrayList<>();
+        for (String str : stringNumbers) {
+            Integer parsedNumber = parseStringToInteger(str);
+            if (parsedNumber != null) {
+                integerList.add(parsedNumber); // Autoboxing occurs here
+            }
+        }
+
+        int sum = calculateSum(integerList);
+
+        System.out.println("The sum of the integers is: " + sum);
+    }
+}
