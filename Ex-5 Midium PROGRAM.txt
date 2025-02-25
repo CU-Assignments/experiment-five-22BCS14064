@@ -1,0 +1,73 @@
+import java.io.*;
+
+class Student implements Serializable {
+    private static final long serialVersionUID = 1L; 
+    private int id;
+    private String name;
+    private double gpa;
+
+      public Student(int id, String name, double gpa) {
+        this.id = id;
+        this.name = name;
+        this.gpa = gpa;
+    }
+
+        public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getGpa() {
+        return gpa;
+    }
+
+       public void displayStudentDetails() {
+        System.out.println("Student ID: " + id);
+        System.out.println("Name: " + name);
+        System.out.println("GPA: " + gpa);
+    }
+}
+
+public class StudentSerializationDemo {
+
+        public static void serializeStudent(Student student, String fileName) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(student); // Serializing the student object
+            System.out.println("Student object serialized successfully.");
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: The file was not found.");
+        } catch (IOException e) {
+            System.out.println("Error: I/O Exception occurred during serialization.");
+        }
+    }
+
+       public static Student deserializeStudent(String fileName) {
+        Student student = null;
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            student = (Student) ois.readObject(); // Deserializing the student object
+            System.out.println("Student object deserialized successfully.");
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: The file was not found.");
+        } catch (IOException e) {
+            System.out.println("Error: I/O Exception occurred during deserialization.");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Error: Class not found during deserialization.");
+        }
+        return student;
+    }
+
+    public static void main(String[] args) {
+        String fileName = "student.ser"; // File to store serialized object
+        Student student = new Student(101, "John Doe", 3.75);
+
+                serializeStudent(student, fileName);
+
+        Student deserializedStudent = deserializeStudent(fileName);
+        if (deserializedStudent != null) {
+            deserializedStudent.displayStudentDetails(); 
+        }
+    }
+}
